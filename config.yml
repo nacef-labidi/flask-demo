@@ -1,0 +1,19 @@
+version: 2
+workflows:
+  version: 2
+  build:
+    jobs:
+      - docker_publish
+
+jobs:
+  docker_publish:
+    docker:
+      - image: docker:18.02.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: |
+         docker build . -t naceflabidi/flask-demo:$CIRCLE_SHA1 -t naceflabidi/flask-demo:latest
+         docker login --username $DOCKER_USER --password $DOCKER_PASS
+         docker push naceflabidi/flask-demo:$CIRCLE_SHA1
+         docker push naceflabidi/flask-demo:latest
