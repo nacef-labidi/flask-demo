@@ -25,7 +25,8 @@ jobs:
     docker:
       - image: naceflabidi/helm-docker
     steps:
-      - helm init --client-only
-      - mkdir -p $HOME/.kube
-      - envsubst < /apps/kubeconfig.template > $HOME/.kube/config
-      - helm upgrade --install flask-demo ./chart/flask-demo --set image.tag=$CIRCLE_SHA1 --namespace demo
+      - run: |
+         helm init --client-only
+         mkdir -p $HOME/.kube
+         envsubst < /apps/kubeconfig.template > $HOME/.kube/config
+         helm upgrade --install flask-demo ./chart/flask-demo --set image.tag=$CIRCLE_SHA1 --namespace demo
