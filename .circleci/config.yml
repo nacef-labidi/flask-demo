@@ -25,6 +25,7 @@ jobs:
     docker:
       - image: naceflabidi/helm-docker
     steps:
+      - checkout
       - run: |
          helm init --client-only
          mkdir -p $HOME/.kube
